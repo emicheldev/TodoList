@@ -3,30 +3,48 @@
 namespace App\Tests\Unit\Controller;
 
 use http\Client;
+
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
+/**
+ * @covers \App\Controller\DefaultController
+ * @covers \App\Controller\SecurityController
+ */
 class DefaultControllerTest extends WebTestCase
 {
-    private $client;
+	private $client = null;
 
-    public function setUp(): void
-    {
-        $this->client = static::createClient();
-        $this->login = new UserControllerTest();
-    }
+	protected function setUp(): void
+	{
+		$this->client = static::createClient();
+	}
 
-    public function loginUser(): void
-    {
-        $crawler = $this->client->request('GET', '/login');
-        $form = $crawler->selectButton('Connexion')->form();
-        $this->client->submit($form, ['username' => 'admin', 'password' => 'adminadmin']);
-    }
+	/**
+	 * Test method indexAction before redirect login
+	 * 
+	 * @test
+	 * @return void
+	 * 
+	 */
+	public function textIndexActionBeforeRedirectLogin()
+	{
+		$this->client->request('GET', '/');
+		$uri = $this->client->getRequest()->getUri();
+		$this->assertEquals(302, $this->client->getResponse()->getStatusCode());
+		$this->assertTrue($this->client->getResponse()->isRedirect($uri . 'login'));
+	}
 
-    public function testIndex()
-    {
-        $this->loginUser();
-
-        $this->client->request('GET', '/');
-        $this->assertEquals(200, $this->client->getResponse()->getStatusCode());
-    }
+	/**
+	 * Test method indexAction after redirect login
+	 * 
+	 * @test
+	 * @return void
+	 * 
+	 */
+	public function textIndexActionAfterRedirectLogin()
+	{
+		$this->client->request('GET', '/');
+		$this->client->followRedirect();
+		$this->assertEquals(200, $this->client->getResponse()->getStatusCode());
+	}
 }

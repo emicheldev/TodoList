@@ -19,7 +19,7 @@ class UserControllerTest extends WebTestCase
     {
         $crawler = $this->client->request('GET', '/login');
         $form = $crawler->selectButton('Connexion')->form();
-        $this->client->submit($form, ['username' => 'admin', 'password' => 'adminadmin']);
+        $this->client->submit($form, ['username' => 'michel', 'password' => 'michel']);
     }
 
     public function testListAction()
@@ -56,7 +56,7 @@ class UserControllerTest extends WebTestCase
     {
         $this->loginUser();
 
-        $crawler = $this->client->request('GET', '/users/4/edit');
+        $crawler = $this->client->request('GET', '/users/2/edit');
         $this->assertEquals(200, $this->client->getResponse()->getStatusCode());
 
         $form = $crawler->selectButton('Modifier')->form();
