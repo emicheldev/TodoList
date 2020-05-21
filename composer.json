@@ -23,6 +23,7 @@
         "symfony/asset": "4.4.*",
         "symfony/cache": "4.4.*",
         "symfony/console": "4.4.*",
+        "symfony/dom-crawler": "4.4.*",
         "symfony/dotenv": "4.4.*",
         "symfony/expression-language": "4.4.*",
         "symfony/flex": "^1.3.1",
@@ -44,10 +45,12 @@
         "symfony/yaml": "4.4.*"
     },
     "require-dev": {
-        "symfony/debug-pack": "*",
-        "symfony/phpunit-bridge": "^5.0",
-        "symfony/profiler-pack": "*",
-        "symfony/test-pack": "^1.0"
+        "symfony/maker-bundle": "^1.14.6",
+		"doctrine/doctrine-fixtures-bundle": "3.0.2",
+		"symfony/debug-pack": "*",
+		"symfony/profiler-pack": "*",
+		"symfony/test-pack": "*",
+		"symfony/phpunit-bridge": "^5.1@dev"
     },
     "config": {
         "preferred-install": {
