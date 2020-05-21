@@ -65,7 +65,13 @@
                         </div>
                     {% endfor %}
 
-                    {% block header_title %}{% endblock %}
+                    {% block header_title %}
+						<div style="margin-bottom: 50px">
+							<h1 class="text-center">Bienvenue sur Todo List</h1>
+							<div class="description text-center">L'application vous permettant de gérer l'ensemble de vos tâches sans effort !</div>
+						</div>
+					{% endblock %}
+
                     {% block header_img %}<img class="slide-image" src="{{ asset('img/todolist_homepage.jpg') }}" alt="todo list">{% endblock %}
                 </div>
             </div>

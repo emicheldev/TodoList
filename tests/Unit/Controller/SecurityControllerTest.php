@@ -43,7 +43,7 @@ class SecurityControllerTest extends WebTestCase
 	 */
 	public function testAccessRouteWhenAuthenticatedWithAdminRole()
 	{
-		$this->logUtils->login('admin');
+		$this->logUtils->login('michel');
 		$this->client->request('GET', "/tasks");
 		$this->assertEquals('200', $this->client->getResponse()->getStatusCode());
 	}
@@ -67,9 +67,9 @@ class SecurityControllerTest extends WebTestCase
 	 */
 	public function testWrongCredientialsWhenLogin()
 	{
-		$crawler = $this->client->request('POST', "/login", ['_username' => 'test', '_password' => 'test']);
+		$crawler = $this->client->request('POST', "/login", ['username' => 'test', 'password' => 'test']);
 		$crawler = $this->client->followRedirect();
-		$this->assertStringContainsString('Invalid credentials.', $crawler->text());
+		$this->assertStringContainsString('Invalid credentials.', $crawler->text(null, false));
 	}
 
 	/**
@@ -79,10 +79,11 @@ class SecurityControllerTest extends WebTestCase
 	 */
 	public function testLoginWithCorrectParams()
 	{
-		$this->client->request('POST', "/login", ['_username' => 'admin', '_password' => 'admin']);
+		$this->client->request('POST', "/login", ['username' => 'michel', 'password' => 'michel']);
 		$crawler = $this->client->followRedirect();
-		$this->assertStringContainsString('Créer une nouvelle tâche', $crawler->text());
+		$this->assertStringContainsString('Créer une nouvelle tâche', $crawler->text(null, false));
 	}
+	
 
 	/**
 	 * Test access user management with user role
@@ -103,7 +104,7 @@ class SecurityControllerTest extends WebTestCase
 	 */
 	public function testAccessUserManagementWithAdminRole()
 	{
-		$this->logUtils->login('admin');
+		$this->logUtils->login('michel');
 		$this->client->request('GET', "/users");
 		$this->assertEquals('200', $this->client->getResponse()->getStatusCode());
 	}
@@ -115,7 +116,7 @@ class SecurityControllerTest extends WebTestCase
 	 */
 	public function testLogout()
 	{
-		$this->logUtils->login('admin');
+		$this->logUtils->login('michel');
 		$this->client->request('GET', "/logout");
 		$this->client->request('GET', "/tasks");
 		$this->assertEquals('302', $this->client->getResponse()->getStatusCode());

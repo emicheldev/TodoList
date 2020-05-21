@@ -1,14 +1,13 @@
 {
-    "name": "emicheldev/TodoList",
-    "version": "0.5.0",
+    "name": "emicheldev/todolist",
+    "version": "0.5.1",
     "license": "proprietary",
     "type": "project",
     "description": "Update project for Todo & Co",
     "authors": [
         {
             "name": "e. Michel",
-            "email": "contact@emicheldev.fr",
-            "homepage": "https://portfolio.emicheldev.fr/"
+            "email": "contact@emicheldev.fr"
         }
     ],
     "support": {

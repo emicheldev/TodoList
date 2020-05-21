@@ -107,8 +107,8 @@ class TaskController extends AbstractController
     public function deleteTaskAction(Task $task)
     {
         if (
-            $task->getUser() === $this->getUser() ||
-            ($task->getUser() === null && $this->isGranted('ROLE_ADMIN'))
+            $task->getAuthor() === $this->getUser() ||
+            ($task->getAuthor() === null && $this->isGranted('ROLE_ADMIN'))
         ) {
             $em = $this->getDoctrine()->getManager();
             $em->remove($task);
