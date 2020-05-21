@@ -3,7 +3,6 @@
 {% block body %}
 
     <form method="post">
-    {{dump(error)}}
         {% if error %}
             <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
         {% endif %}
@@ -19,7 +18,6 @@
         <label for="password">Mot de passe :</label>
         <input type="password" id="password" name="password" />
                 <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
-
 
         <button class="btn btn-success" type="submit">Connexion</button>
     </form>
