@@ -4,9 +4,9 @@
 
 {% block body %}
     <a href="{{ path('task_create') }}" class="btn btn-info pull-right">Créer une tâche</a>
-    <div class="row">
+    <div class="row tasks">
         {% for task in tasks %}
-        <div class="col-sm-4 col-lg-4 col-md-4">
+        <div class="task col-sm-4 col-lg-4 col-md-4">
             <div class="thumbnail">
                 <div class="caption">
                     <h4 class="pull-right">
