@@ -1,18 +1,25 @@
+
 language: php
-sudo: false
-cache:
-    directories:
-        - $HOME/.composer/cache
-        - $HOME/symfony-bridge/.phpunit
-warnings_are_errors: false
-services:
-    - mysql
 php:
-    - 7.2
+  - '7.2'
+  - '7.3'
+addons:
+  apt:
+    sources:
+      - mysql-5.7-trusty
+    packages:
+      - mysql-server
+      - mysql-client
+
+before_install:
+  - sudo mysql -e "use mysql; update user set authentication_string=PASSWORD('new_password') where User='root'; update user set plugin='mysql_native_password';FLUSH PRIVILEGES;"
+  - sudo mysql_upgrade -u root -pnew_password
+  - sudo service mysql restart
+
 install:
-    - composer install --prefer-dist --no-interaction
-    - php bin/console doctrine:database:create --env=test
-    - php bin/console doctrine:schema:update --force --env=test
-    - php bin/console doctrine:fixtures:load -n --env=test
-script:
-    - ./vendor/bin/simple-phpunit --coverage-text --colors
+  - composer install --dev
+  - php bin/console doctrine:database:create
+  - php bin/console doctrine:schema:create
+  - php bin/console doctrine:database:create --env=test
+  - php bin/console doctrine:schema:create --env=test
+  - vendor/bin/phpunit
