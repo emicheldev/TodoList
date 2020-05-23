@@ -1,58 +1,62 @@
 language: php
-sudo: false
+
 cache:
-    directories:
-        - $HOME/.composer/cache/files
-        - $HOME/symfony-bridge/.phpunit
+  yarn: true
+  directories:
+    - $HOME/.composer/cache/files
+    - ./bin/.phpunit
 
 env:
-    global:
-        - PHPUNIT_FLAGS="-v"
-        - SYMFONY_PHPUNIT_DIR="$HOME/symfony-bridge/.phpunit"
+  global:
+    - SYMFONY_PHPUNIT_DIR=./bin/.phpunit
+    - SYMFONY_DEPRECATIONS_HELPER=9
+    - ACTION="install"
 
 matrix:
-    fast_finish: true
-    include:
-          # Minimum supported dependencies with the latest and oldest PHP version
-        - php: 7.2
-          env: COMPOSER_FLAGS="--prefer-stable --prefer-lowest" SYMFONY_DEPRECATIONS_HELPER="weak_vendors"
-        - php: 7.0
-          env: COMPOSER_FLAGS="--prefer-stable --prefer-lowest" SYMFONY_DEPRECATIONS_HELPER="weak_vendors"
-
-          # Test the latest stable release
-        - php: 7.0
-        - php: 7.1
-        - php: 7.2
-          env: COVERAGE=true PHPUNIT_FLAGS="-v --coverage-text"
-
-          # Test LTS versions. This makes sure we do not use Symfony packages with version greater
-          # than 2 or 3 respectively. Read more at https://github.com/symfony/lts
-        - php: 7.2
-          env: DEPENDENCIES="symfony/lts:^2"
-        - php: 7.2
-          env: DEPENDENCIES="symfony/lts:^3"
-
-          # Latest commit to master
-        - php: 7.2
-          env: STABILITY="dev"
-
-    allow_failures:
-          # Dev-master is allowed to fail.
-        - env: STABILITY="dev"
+  fast_finish: true
+  include:
+    - php: 7.1
+      env: SYMFONY="4.4.*"
+           ACTION="update"
+    - php: 7.2
+    - php: 7.3
+    - php: 7.4
 
 before_install:
-    - if [[ $COVERAGE != true ]]; then phpenv config-rm xdebug.ini || true; fi
-    - if ! [ -z "$STABILITY" ]; then composer config minimum-stability ${STABILITY}; fi;
-    - if ! [ -v "$DEPENDENCIES" ]; then composer require --no-update ${DEPENDENCIES}; fi;
+  - '[[ "$TRAVIS_PHP_VERSION" == "7.4snapshot" ]] || phpenv config-rm xdebug.ini'
+  - composer self-update
+  # Set memory to max (memory fail)
+  - '[[ "$ACTION" == "install" ]] || echo "memory_limit=-1" >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini'
+  # Set stability to dev to allow 4.4dev and 5.0dev
+  - '[[ "$ACTION" == "install" ]] || composer config minimum-stability dev'
+  # Change version of symfony when need
+  - '[[ "$ACTION" == "install" ]] || composer config extra.symfony.require $SYMFONY'
 
 install:
-    # To be removed when this issue will be resolved: https://github.com/composer/composer/issues/5355
-    - if [[ "$COMPOSER_FLAGS" == *"--prefer-lowest"* ]]; then composer update --prefer-dist --no-interaction --prefer-stable --quiet; fi
-    - composer update ${COMPOSER_FLAGS} --prefer-dist --no-interaction
-    - ./vendor/bin/simple-phpunit install
+  - php -r "echo ini_get('memory_limit').PHP_EOL;"
+  # install or update
+  - composer $ACTION
+  - ./bin/phpunit install
 
 script:
-    - composer validate --strict --no-check-lock
-    # simple-phpunit is the PHPUnit wrapper provided by the PHPUnit Bridge component and
-    # it helps with testing legacy code and deprecations (composer require symfony/phpunit-bridge)
-    - ./vendor/bin/simple-phpunit $PHPUNIT_FLAGS
+  # there's no need to load data fixtures before running tests because the project
+  # repository already includes a test database with all the fixtures needed to run the tests
+  - ./bin/phpunit
+  # this checks that the source code follows the Symfony Code Syntax rules
+  - '[[ "$TRAVIS_PHP_VERSION" == "7.1" ]] || ./vendor/bin/php-cs-fixer fix --diff --dry-run -v'
+  # this checks that the YAML config files contain no syntax errors
+  - ./bin/console lint:yaml config --parse-tags
+  # this checks that the Twig template files contain no syntax errors
+  - ./bin/console lint:twig templates --env=prod
+  # this checks that the XLIFF translations contain no syntax errors
+  - ./bin/console lint:xliff translations
+  # this checks that arguments injected into services match type declarations
+  - ./bin/console lint:container
+  # TODO: replace the old security checker by the new checker provided by the 'symfony' binary
+  # this checks that the application doesn't use dependencies with known security vulnerabilities
+  #- ./bin/console security:check
+  # this checks that Doctrine's mapping configurations are valid
+  - ./bin/console doctrine:schema:validate --skip-sync -vvv --no-interaction
+  #  Fail CI if the repo is in a dirty state after building assets (only for current release ie install)
+  #-  if [[ "$ACTION" == "install" ]]; then yarn install && yarn encore production && git add --all && git diff --staged --exit-code; fi
+  - composer validate --strict
