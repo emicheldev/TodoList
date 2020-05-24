@@ -68,7 +68,7 @@ class AppFixtures extends Fixture
 			$user = new User();
 			$user->setUsername($item['username']);
 			$user->setEmail($item['email']);
-			$user->setRole($item['role']);
+			$user->setRoles($item['roles']);
 			$user->setPassword($this->encoder->encodePassword($user, $item['password']));
 
 			$manager->persist($user);
@@ -85,10 +85,8 @@ class AppFixtures extends Fixture
 
 			$task->setTitle('Tâche numéro ' . $i . $subTitle);
 			$task->setContent($faker->sentence(5, true));
-			$task->setCreatedAt($date);
-			$task->setUpdatedAt($date);
 			$task->toggle($isDone);
-			$task->setUser($user);
+			$task->setAuthor($user);
 
 			$manager->persist($task);
 		}
