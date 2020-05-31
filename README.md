@@ -3,8 +3,6 @@
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/7b14ff1fae3a44e699fa09cbe91d8ac2)](https://www.codacy.com/manual/emicheldev/TodoList?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=emicheldev/TodoList&amp;utm_campaign=Badge_Grade)
 [![Maintainability](https://api.codeclimate.com/v1/badges/ea11630edd84fb5ee5f9/maintainability)](https://codeclimate.com/github/emicheldev/TodoList/maintainability)
 
-The project is hosted [online](https://emichel.dev/).
-
 ## Setup project
 
 ```text
