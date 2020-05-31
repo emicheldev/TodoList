@@ -1,7 +1,7 @@
 # [PHP] - Openclassrooms - Todo & Co
 
-[![Codacy Badge](https://app.codacy.com/project/badge/Grade/7b14ff1fae3a44e699fa09cbe91d8ac2)](https://www.codacy.com/manual/emicheldev/TodoList?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=emicheldev/TodoList&amp;utm_campaign=Badge_Grade)
-[![Maintainability](https://api.codeclimate.com/v1/badges/ea11630edd84fb5ee5f9/maintainability)](https://codeclimate.com/github/emicheldev/TodoList/maintainability)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/776a228bfa684fe1ad8cb94d0f3689d7)](https://app.codacy.com/manual/emicheldev/TodoList?utm_source=github.com&utm_medium=referral&utm_content=emicheldev/TodoList&utm_campaign=Badge_Grade_Dashboard)
+Base du projet #8 : Améliorez un projet existant
 
 ## Setup project
 
