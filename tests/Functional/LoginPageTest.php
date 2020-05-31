@@ -37,7 +37,7 @@ class LoginPageTest extends WebTestCase
 		$crawler = $this->client->submit($loginForm);
 		$crawler = $this->client->followRedirect();
 
-		$this->assertStringContainsString('Username could not be found.', $crawler->text());
+		$this->assertStringContainsString('Username could not be found.', $crawler->text(null,false));
 	}
 
 	/**

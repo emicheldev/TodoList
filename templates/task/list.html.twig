@@ -8,7 +8,7 @@
 		<a href="{{ path('task_create') }}" class="btn btn-info pull-right">Créer une tâche</a>
 	</div>
 	<div class="row tasks">
-		{% for task in tasks %}
+		{% for task in tasks | sort | reverse %}
 			<div class="task" data-id="{{ task.id }}">
 				<div class="thumbnail portlet ui-widget ui-widget-content ui-helper-clearfix ui-corner-all">
 					<div class="caption">
@@ -34,7 +34,8 @@
 									{% endif %}
 								</button>
 							</form>
-							{% if app.user and (app.user.role == '["ROLE_ADMIN"]' or app.user == task.user) %}
+							{% if (is_granted('ROLE_ADMIN') and task.author.username == null) 
+							or (app.user.username == task.author.username) %}								
 								<form action="{{ path('task_delete', {'id' : task.id }) }}">
 									<button class="btn btn-danger btn-sm">Supprimer</button>
 								</form>

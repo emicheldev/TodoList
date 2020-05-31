@@ -60,31 +60,7 @@ class SecurityControllerTest extends WebTestCase
 		$this->assertEquals('200', $this->client->getResponse()->getStatusCode());
 	}
 
-	/**
-	 * Test wrong credentials when login
-	 * 
-	 * @return void
-	 */
-	public function testWrongCredientialsWhenLogin()
-	{
-		$crawler = $this->client->request('POST', "/login", ['username' => 'test', 'password' => 'test']);
-		$crawler = $this->client->followRedirect();
-		$this->assertStringContainsString('Invalid credentials.', $crawler->text(null, false));
-	}
-
-	/**
-	 * Test login with correct params (eq. admin)
-	 * 
-	 * @return void
-	 */
-	public function testLoginWithCorrectParams()
-	{
-		$this->client->request('POST', "/login", ['username' => 'michel', 'password' => 'michel']);
-		$crawler = $this->client->followRedirect();
-		$this->assertStringContainsString('Créer une nouvelle tâche', $crawler->text(null, false));
-	}
 	
-
 	/**
 	 * Test access user management with user role
 	 * 

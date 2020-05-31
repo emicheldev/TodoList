@@ -25,55 +25,53 @@ class AppFixtures extends Fixture
 	{
 		$faker = Factory::create('fr_FR');
 
-		// reset autoincrement à 1
-		$this->userRepository->resetIndex();
-		$this->taskRepository->resetIndex();
-
 		$users = [
 			[
-				"username" => "admin",
+				"username" => "michel",
 				"email" => "admin@todo.fr",
-				"role" => '["ROLE_ADMIN"]',
-				"password" => "admin",
+				"roles" => ["ROLE_ADMIN"],
+				"password" => "michel",
 			],
 			[
 				"username" => "anonyme",
 				"email" => "anonyme@todo.fr",
-				"role" => '["ROLE_USER"]',
+				"role" => ["ROLE_USER"],
 				"password" => "anonyme",
 			],
 			[
 				"username" => "user",
 				"email" => "user@todo.fr",
-				"role" => '["ROLE_USER"]',
+				"roles" => ["ROLE_USER"],
 				"password" => "user",
 			],
 			[
 				"username" => "user2",
 				"email" => "user2@todo.fr",
-				"role" => '["ROLE_USER"]',
+				"roles" => ["ROLE_USER"],
 				"password" => "user2",
 			],
 			[
 				"username" => "user3",
 				"email" => "user3@todo.fr",
-				"role" => '["ROLE_USER"]',
+				"roles" => ["ROLE_USER"],
 				"password" => "user3",
 			],
 		];
 
-		$usersObj = [];
+        $usersObj = [];
 
 		foreach ($users as $item) {
 			$user = new User();
 			$user->setUsername($item['username']);
 			$user->setEmail($item['email']);
-			$user->setRoles($item['roles']);
+			$user->setRoles(["ROLE_USER"]);
 			$user->setPassword($this->encoder->encodePassword($user, $item['password']));
 
-			$manager->persist($user);
-			array_push($usersObj, $user);
-		}
+            $manager->persist($user);
+            array_push($usersObj, $user);
+
+        }
+        $manager->flush();
 
 		for ($i = 1; $i <= 15; $i++) {
 			$isDone = random_int(0, 1);
