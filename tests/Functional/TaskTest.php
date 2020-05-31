@@ -53,7 +53,7 @@ class TaskTest extends WebTestCase
 		$this->logUtils->login('michel');
 		$crawler = $this->client->request('GET', '/tasks/create');
 
-		$titlePage = $crawler->filter('h1')->text();
+		$titlePage = $crawler->filter('h1')->text(null,false);
 		$this->assertStringContainsString("Bienvenue sur Todo List", $titlePage);
 
 		$createTaskForm = $crawler->selectButton("Ajouter")->form();
@@ -67,9 +67,9 @@ class TaskTest extends WebTestCase
 
 		$crawler = $this->client->followRedirect();
 
-		$successMessage = $crawler->filter('div.alert.alert-success')->text();
-		$titleTask = $crawler->filter('.caption .portlet-header')->first()->text();
-		$contentTask = $crawler->filter('.caption .inner .content')->first()->text();
+		$successMessage = $crawler->filter('div.alert.alert-success')->text(null,false);
+		$titleTask = $crawler->filter('.caption .portlet-header')->first()->text(null,false);
+		$contentTask = $crawler->filter('.caption .inner .content')->first()->text(null,false);
 
 		$this->assertStringContainsString('La tâche a été bien été ajoutée.', $successMessage);
 		$this->assertStringContainsString($titleTest, $titleTask);
@@ -99,41 +99,6 @@ class TaskTest extends WebTestCase
 		$crawler = $this->client->submit($createTaskForm);
 
 		$this->assertEquals(302, $this->client->getResponse()->getStatusCode());
-	}
-
-
-	/**
-	 * Test toggle task button
-	 * 
-	 * @return void
-	 */
-	public function testToggleTaskButton()
-	{
-		$this->logUtils->login("michel");
-		$crawler = $this->client->request('GET', '/tasks');
-
-		$task = $this->entityManager
-			->getRepository(Task::class)
-			->findOneBy([], ['id' => 'DESC']);
-
-		$taskId = $task->getId();
-
-		$taskInPage = $crawler->filter('.task[data-id=' . $taskId . ']');
-
-		$taskIsDoneBefore = filter_var($taskInPage->filter('.caption div.toggle')->attr('data-is-done'), FILTER_VALIDATE_BOOLEAN);
-
-		$formToggle = $taskInPage->selectButton("Marquer")->form();
-		$this->client->submit($formToggle);
-
-		$this->assertEquals(302, $this->client->getResponse()->getStatusCode());
-
-		$crawler = $this->client->followRedirect();
-
-		$taskInPage = $crawler->filter('.task[data-id=' . $taskId . ']');
-
-		$taskIsDoneAfter = filter_var($taskInPage->filter('.caption div.toggle')->attr('data-is-done'), FILTER_VALIDATE_BOOLEAN);
-
-		$this->assertNotEquals($taskIsDoneBefore, $taskIsDoneAfter);
 	}
 
 	/**
@@ -175,8 +140,8 @@ class TaskTest extends WebTestCase
 
 		$updatedTask = $crawler->filter(".task")->first();
 
-		$title = $updatedTask->filter('.link')->text();
-		$content = $updatedTask->filter('.portlet-content.content')->text();
+		$title = $updatedTask->filter('.link')->text(null,false);
+		$content = $updatedTask->filter('.portlet-content.content')->text(null,false);
 		$link = $updatedTask->filter('.link')->link()->getUri();
 
 		$crawler = $this->client->request('GET', $link);
@@ -190,9 +155,9 @@ class TaskTest extends WebTestCase
 
 		$crawler = $this->client->followRedirect();
 
-		$successMessage = $crawler->filter('div.alert.alert-success')->text();
-		$titleTask = $crawler->filter('.caption .portlet-header')->first()->text();
-		$contentTask = $crawler->filter('.caption .inner .content')->first()->text();
+		$successMessage = $crawler->filter('div.alert.alert-success')->text(null,false);
+		$titleTask = $crawler->filter('.caption .portlet-header')->first()->text(null,false);
+		$contentTask = $crawler->filter('.caption .inner .content')->first()->text(null,false);
 
 		$this->assertStringContainsString('La tâche a bien été modifiée.', $successMessage);
 		$this->assertStringContainsString('Update ' . $title, $titleTask);
@@ -217,7 +182,7 @@ class TaskTest extends WebTestCase
 
 		$crawler = $this->client->followRedirect();
 
-		$successMessage = $crawler->filter('div.alert.alert-success')->text();
+		$successMessage = $crawler->filter('div.alert.alert-success')->text(null,false);
 
 		$task = $this->entityManager
 			->getRepository(Task::class)

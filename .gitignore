@@ -32,3 +32,5 @@
 ###< symfony/phpunit-bridge ###
 
 tests/Unit/Controller/vendor/
+
+phpunit.xml.dist
