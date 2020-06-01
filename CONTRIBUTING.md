@@ -38,9 +38,7 @@ git clone https://github.com/emicheldev/TodoList.wiki.git
 To create a branch, do, at the root of the project:
 git checkout -b <branch-name>
 git push -u origin <branch-name>
-
 ## 5. Let's coding
-
 Develop what you want to set up. Please note that your work will not be accepted if it does not comply with the following rules:
 Respect the standards PSR-1, PSR-2, PSR-12 from the PHP language. These recommendations are part of the coding standards to be respected.
 Respect the good practices of Symfony 4.4
