@@ -1,4 +1,4 @@
-# [PHP] - Openclassrooms - Todo & Co
+# PHP - Openclassrooms - Todo & Co
 
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/776a228bfa684fe1ad8cb94d0f3689d7)](https://app.codacy.com/manual/emicheldev/TodoList?utm_source=github.com&utm_medium=referral&utm_content=emicheldev/TodoList&utm_campaign=Badge_Grade_Dashboard)
 
@@ -101,11 +101,10 @@ You can also use the following account, provided you have launched the fixtures:
 -   username: michel
 -   password: michel
 
-
 ### Run Tests
 
 Run phpunit tests by following command :
 
-```
+```shell
 ~ php bin/console doctrine:fixtures:load && php bin/phpunit
 ```
