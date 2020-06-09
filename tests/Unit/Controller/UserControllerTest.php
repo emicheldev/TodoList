@@ -2,6 +2,7 @@
 
 namespace App\Tests\Unit\Controller;
 
+
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 
@@ -74,4 +75,5 @@ class UserControllerTest extends WebTestCase
         $this->assertEquals(200, $this->client->getResponse()->getStatusCode());
         $this->assertEquals(1, $crawler->filter('div.alert-success')->count());
     }
+
 }

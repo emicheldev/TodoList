@@ -1,6 +1,5 @@
 <?php
 
-
 namespace App\Tests\Unit\Controller;
 
 use App\Tests\LogUtils;
@@ -85,16 +84,5 @@ class SecurityControllerTest extends WebTestCase
 		$this->assertEquals('200', $this->client->getResponse()->getStatusCode());
 	}
 
-	/**
-	 * Test logout
-	 * 
-	 * @return void
-	 */
-	public function testLogout()
-	{
-		$this->logUtils->login('michel');
-		$this->client->request('GET', "/logout");
-		$this->client->request('GET', "/tasks");
-		$this->assertEquals('302', $this->client->getResponse()->getStatusCode());
-	}
+
 }
