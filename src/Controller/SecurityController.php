@@ -33,10 +33,9 @@ class SecurityController extends AbstractController
 
     /**
      * @Route("/logout", name="app_logout")
-     * @throws \Exception
+     * @codeCoverageIgnore
      */
     public function logout()
     {
-        throw new \Exception('Logout');
     }
 }
