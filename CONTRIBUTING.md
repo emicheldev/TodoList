@@ -27,12 +27,15 @@ Be as precise and concise as possible in the description of the issue (bug, ques
 
 The third step is to clone our project on your local workspace. So do the following command:
 
+```bash
 git clone https://github.com/emicheldev/TodoList.git
+```
 Then follow the project configuration steps.
 
 Want to contribute to our Wiki?
+```bash
 git clone https://github.com/emicheldev/TodoList.wiki.git
-
+```
 ## 4. Create a branch
 
 To create a branch, do, at the root of the project:
