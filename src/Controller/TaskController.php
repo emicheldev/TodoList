@@ -65,7 +65,7 @@ class TaskController extends AbstractController
      * @param Request $request
      * @return RedirectResponse|Response
      */
-    public function editAction(Task $task, Request $request)
+    public function editAction(Task $task, Request $request): Response
     {
         $form = $this->createForm(TaskType::class, $task);
 
